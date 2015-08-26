@@ -68,12 +68,11 @@ You can write several rules in the same rule file. The priority order is given b
 
 ## Start the server
 
-``` > node httpMock.js addressToListen portTolisten propertyFile
+``` > node httpMock.js addressToListen portTolisten propertyFile ```
 
 * addressToListen : ip address (0.0.0.0 for all enabled ip address of the server)
 * portToListen : port to listen
 * propertyFile : path the property file described above
-* 
 
 ## Next task to do
 
