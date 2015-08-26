@@ -7,16 +7,16 @@ This application is useful to mock an HTTP server exposing a WebService.
 As I just start the node development I didn't yet prepare the environment to speed up the installation (sorry)
 
 * Install Node + NPM
-* Install the following package
+* Install the following package (npm install packageName)
   * http
   * url
   * path
   * fs
-	* xml2js
-	* path
-	* JSONPath
-	* http-string-parser (I plan to reimplement as it not at all efficient)
-	* properties-reader
+  * xml2js
+  * path
+  * JSONPath
+  * http-string-parser (I plan to reimplement as it not at all efficient)
+  * properties-reader
 * create a property file with the list of rules
 * create your rules files 
 
@@ -68,7 +68,7 @@ You can write several rules in the same rule file. The priority order is given b
 
 ## Start the server
 
-``` > node tcpMock.js addressToListen portTolisten propertyFile
+``` > node httpMock.js addressToListen portTolisten propertyFile
 
 * addressToListen : ip address (0.0.0.0 for all enabled ip address of the server)
 * portToListen : port to listen
