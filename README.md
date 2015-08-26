@@ -7,7 +7,7 @@ This application is useful to mock an HTTP server exposing a WebService.
 As I just start the node development I didn't yet prepare the environment to speed up the installation (sorry)
 
 * Install Node + NPM
-* Install the following package (npm install packageName)
+* Install the following package (``` npm install packageName ```)
   * http
   * url
   * path
