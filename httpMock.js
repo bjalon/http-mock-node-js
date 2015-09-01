@@ -54,9 +54,9 @@ http.createServer(function(request, response) {
 			if (matchingContent) {
 				responseDone = true;
 				var description = configuration[i].description,
-					pattern = configuration[i].requestPattern,
-					filename = configuration[i].fileSource;
-					
+				pattern = configuration[i].requestPattern,
+				filename = configuration[i].sourceFile;
+
 				console.log("  Matching rule " + i + ": " + description + " with pattern :" + pattern + " (" + filename + ")");
 
 				var responseToReturn = responses[i];
@@ -72,7 +72,7 @@ http.createServer(function(request, response) {
 				var resStatus = responseToReturn.statusCode;
 				var resHeaders = responseToReturn.headers;
 				resHeaders['transfer-encoding'] = ''; // avoid chunked response
-				var rsBody = normalizeNewlineUnix(responseToReturn.body);
+				var rsBody = parser.normalizeNewlineUnix(responseToReturn.body);
 
 				console.log("    Response returned " + resStatus);
 				// console.log("      status code: " + resStatus);
