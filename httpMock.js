@@ -1,15 +1,14 @@
 var http = require("http"),
     url = require("url"),
 	jsonPath = require("JSONPath"),
-	parser = require("./parser.js");
+	parser = require("./parser");
 	
 	
 var address = process.argv[2], 
 	port =  process.argv[3],
 	file = process.argv[4];
 	
-parser.init();
-parser.checkFileExists(file);
+parser.exists(file);
 configuration = parser.parseConfiguration(file);
 
 var rules = parser.extractAvailableRules(configuration);
