@@ -7,20 +7,17 @@ This application is useful to mock an HTTP server exposing a WebService.
 As I just start the node development I didn't yet prepare the environment to speed up the installation (sorry)
 
 * Install Node + NPM
-* Install the following package (``` npm install packageName ```)
-  * http
-  * url
-  * path
-  * fs
-  * xml2js
-  * path
-  * JSONPath
-  * http-string-parser (I plan to reimplement as it not at all efficient)
-  * properties-reader
+* Call, from the root directory, NPM to install dependencies
+
+  ``` $> npm update ```
+
+ * properties-reader
 * create a property file with the list of rules
 * create your rules files 
 
-You have examples for the file in the following section
+Remark: I used **http-string-parser** but I plan to change that or pull request fix as it not at all efficient
+
+You have file example [here](./example).
 
 ## Configuration files
 
