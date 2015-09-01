@@ -104,7 +104,7 @@ function normalizeNewlineWindows(str) {
 	return result;
 }
 
-function normalizeNewlineUnix(str) {
+exports.normalizeNewlineUnix = function(str) {
 	var result = str.replace(/\r\n/g, '\n');
 	return result;
 }
