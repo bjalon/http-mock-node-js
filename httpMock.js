@@ -12,7 +12,6 @@ var port =  process.argv[2],
 	address = process.argv[3], 
 	file = process.argv[4];
 	
-
 init();
 checkFileExists(file);
 configuration = parseConfiguration(file);
@@ -22,7 +21,7 @@ var responses = extractAvailableResponses(configuration);
 
 http.createServer(function(request, response) {
 
-	console.log("******* New Request for computation *******");
+	console.log("******* New Request *******");
     var reqBody = "";
 	var reqHeaders = request.headers;
 	var reqURL = request.url;
@@ -32,23 +31,25 @@ http.createServer(function(request, response) {
     });
 
     request.on('end', function () {
-		console.log("** REQUEST INFO **");
+		console.log("** NEW REQUEST PARSING **");
 		
 		var requestAsString = " url: ";
 		requestAsString += reqURL;
-		console.log("    url: " + truncString(reqURL));
+		//console.log("    url: " + truncString(reqURL));
+		console.log("    url: " + reqURL);
 		
 		requestAsString += "\n header:\n";
 		var headersSerialized = JSON.stringify(reqHeaders);
 		requestAsString += headersSerialized;
-		console.log("    headers: " + truncString(headersSerialized));
-
+		// console.log("    headers: " + truncString(headersSerialized));
+		// console.log("    headers: " + headersSerialized);
+		
 		requestAsString += "\n body:\n";
 		requestAsString += reqBody;
-		console.log("    body: " + truncString(reqBody));
+		// console.log("    body: " + truncString(reqBody));
 		
-		console.log(requestAsString);
-		console.log("** END REQUEST INFO **");
+		// console.log(requestAsString);
+		// console.log("** END REQUEST PARSING **");
 		
 		rules.forEach(function(rule, i) {
 			var regexpRule = new RegExp(rule);
@@ -71,19 +72,23 @@ http.createServer(function(request, response) {
 				resHeaders['transfer-encoding'] = ''; // avoid chunked response
 				var rsBody = normalizeNewlineUnix(responseToReturn.body);
 
-				console.log("    Response returned (begin) **");
-				console.log("      status code: " + resStatus);
-				console.log("      headers: " + JSON.stringify(resHeaders));
-				console.log("      body:" + rsBody + "EOF");
-				console.log("**  Response returned (end) **");
+				console.log("    Response returned " + resStatus);
+				// console.log("      status code: " + resStatus);
+// 				console.log("      headers: " + JSON.stringify(resHeaders));
+// 				console.log("      body:" + rsBody + "EOF");
+// 				console.log("**  Response returned (end) **");
 
 				response.writeHead(resStatus, resHeaders);
 				response.write(rsBody);
 				response.end("");
 				console.log("******* End New Request (OK) *******");
 				return;
-			}
+			} 
 		});
+		
+		// response.writeHead(404, {"Content-Type": "text/plain"});
+// 		response.end("No rules defined");
+// 		console.log("    No rule found: return 404");
 
     });
 }).listen(port, address);
