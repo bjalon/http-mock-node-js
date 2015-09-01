@@ -65,6 +65,18 @@ This Rule will return ``` ContentToReturn ``` if the request contains the string
 
 You can write several rules in the same rule file. The priority order is given by the order of the rule files in the property file and the rule in the rule files. The first rule matching the request give the returned answer.
 
+### Prepare data (should be soon removed)
+
+The HTTP String parser used waits Windows carriage return (really bad). I plan to rewrite the parser or send pull request to improve that or use a real parser.
+
+Waiting that, you can normalize your files with the little script available in the root of the project. Just give the directory where file with rules as parameter and files will be normalized.
+
+```
+$> chmod u+x normalizeCarriageReturn.sh
+$> ./normalizeCarriageReturn.sh my/directory/
+```
+
+
 
 ## Start the server
 
