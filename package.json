@@ -2,14 +2,14 @@
 	"name" : "http-mock-node-js",
 	"description" : "Mock to simulate HTTP server",
 	"version" : "0.0.1",
-	"main": "lib/httpMock.js",
+	"main": "lib/httpMock",
 	"private" : true,
 	"dependencies" : {
 		"http-string-parser" : "0.0.5",
-		"JSONPath" : "0.10.0"
-		"path" : "0.11.14"
+		"JSONPath" : "0.10.0",
+		"path" : "0.11.14",
 		"properties-reader" : "0.0.10",
 		"url" : "0.11.0",
-		"xml2js" : "0.4.11"
+		"xml2js" : "0.4.11",
 	}
 }
