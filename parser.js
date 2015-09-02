@@ -12,82 +12,36 @@ if (typeof String.prototype.startsWith != 'function') {
 	};
 }
 
-exports.exists = function(file){
-	try {
-		stats = fs.lstatSync(file);
-		if (!stats.isFile()) {
-			console.log("ERR1 : " +  file + "not a file");
-			console.log("Waiting a configuration file as parameter");
-			console.log("node tcpMock.js [ADDRESS] [PORT] [fileConfig]");
-			process.exit(1);
-		}
-	}
-	catch (e) {
-        console.log("ERR2 : " +  file + "not a file");
-		console.log("Waiting a configuration file as parameter");
-        console.log("node tcpMock.js [ADDRESS] [PORT] [fileConfig]");
-        process.exit(1);
-	}
-	console.log("File found : " + file);
+exports.parseConfiguration = function(file, callback) {
+	isExists(file);
 
-}
-
-exports.parseConfiguration = function(file) {
 	var properties = PropertiesReader(file);
 	var filesToParse = properties.get('mockFileNames');
-	var configuration = [];
 	var j = 0;
 	
-	
 	filesToParse.split(",").forEach(function(fileToParse) {
+
 	    var absolutePath = path.resolve(fileToParse);
 	    console.log("Parse files: " + absolutePath);
 		var data = fs.readFileSync(absolutePath);
 		var xmlParser = new xml2js.Parser();
+
 	    xmlParser.parseString(data, function (err, result) {
 			var rules = result.index.mock;
 			
 			rules.forEach(function(rule, i){
 			    j++;
 			    rule["sourceFile"] = fileToParse;
-    			console.log('     Rule name ' + (i + 1) + '/' + j + ': ' + rule.description );
+			    rule["responseParsed"] = extractResponseFromRule(rule);
 
-				configuration = configuration.concat(rule);
+				callback(rule);
 			});
 			console.log('   ' + rules.length + " rule(s) added.");
 		});
 	});
-	console.log("Total rules size: " + configuration.length);
-	return configuration;
+	console.log("Total rules size: " + j);
 }
 
-exports.extractAvailableResponses = function(configuration) {
-	var responses = [];
-	configuration.forEach(function(confItem, i) {
-		var responseAsString = normalizeNewlineWindows(confItem.response.toString());
-		
-		if (responseAsString && responseAsString.trim()) {
-			var httpResponse = httpParser.parseResponse(responseAsString);
-			console.log("    response status code detected (" + i + ") : " + httpResponse.statusCode);
-			responses.push(httpResponse);
-		} else {
-			console.log("    empty response detected (" + i + ")");
-			responses.push(null);
-		}
-	});
-	return responses
-}
-
-exports.extractAvailableRules = function(configuration) {
-	var rules = [];
-	console.log("Rules ordered enabled");
-	configuration.forEach(function(confItem, i) {
-		var rule = confItem.requestPattern;
-		console.log("  Rule " + (i + 1) + ": " + rule + " (" + confItem.sourceFile + ")");
-		rules.push(rule);
-	});
-	return rules
-}
 
 function truncString(stringToTrunc) {
 	var size = Math.min(20, stringToTrunc.length);
@@ -109,3 +63,33 @@ exports.normalizeNewlineUnix = function(str) {
 	return result;
 }
 
+
+extractResponseFromRule = function(rule) {
+	var responseAsString = normalizeNewlineWindows(rule.response.toString());
+	
+	if (responseAsString && responseAsString.trim()) {
+		return httpParser.parseResponse(responseAsString);
+	} else {
+		return null;
+	}
+}
+
+isExists = function(file){
+	try {
+		stats = fs.lstatSync(file);
+		if (!stats.isFile()) {
+			console.log("ERR1 : " +  file + " is not a file");
+			console.log("Waiting a configuration file as parameter");
+			console.log("node tcpMock.js [ADDRESS] [PORT] [fileConfig]");
+			process.exit(1);
+		}
+	}
+	catch (e) {
+        console.log("ERR2 : " +  file + " is not a file");
+		console.log("Waiting a configuration file as parameter");
+        console.log("node tcpMock.js [ADDRESS] [PORT] [fileConfig]");
+        process.exit(1);
+	}
+	console.log("configuration file found : " + file + "\n");
+
+}
