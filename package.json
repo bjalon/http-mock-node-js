@@ -2,6 +2,7 @@
 	"name" : "http-mock-node-js",
 	"description" : "Mock to simulate HTTP server",
 	"version" : "0.0.1",
+	"main": "lib/httpMock.js",
 	"private" : true,
 	"dependencies" : {
 		"http-string-parser" : "0.0.5",

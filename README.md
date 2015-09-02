@@ -83,6 +83,10 @@ $> ./normalizeCarriageReturn.sh my/directory/
 * portToListen : port to listen
 * propertyFile : path the property file described above
 
+With the simple example:
+
+``` > node lib/httpMock.js 0.0.0.0 12345 test/simple/mock.properties ```
+
 ## Next task to do
 
 * Improve the http parser is really not stable (http-string-parser).
