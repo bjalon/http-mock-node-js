@@ -29,7 +29,7 @@ You just have to create a file organized as a property file with a parameter con
 
 ### Rules File
 
-The rule file exposes 
+The rule file exposes
 
 * a regexp that will be used by the mock to select the request that will activate the response to return. The request represent all element send with the request (url, headers, content).
 * the response to return for each request. Here you just write the exact String returned by the server into the tcp tunnel. You can use SOAPUI or Wireshark to get the response returned by the server simulated by the HTTP mock server.
@@ -77,15 +77,24 @@ $> ./normalizeCarriageReturn.sh my/directory/
 
 ## Start the server
 
-``` > node httpMock.js addressToListen portTolisten propertyFile ```
+``` > node httpMock.js addressToListen portTolisten propertyFile mediumWaitingTime meanValue standardDeviation```
 
 * addressToListen : ip address (0.0.0.0 for all enabled ip address of the server)
 * portToListen : port to listen
 * propertyFile : path the property file described above
+* mediumWaitingTime : Medium waiting time
+* meanValue : Mean value for the random waiting time
+* standardDeviationValue : Standard Deviation for the random waiting time
+
 
 With the simple example:
 
 ``` > node lib/httpMock.js 0.0.0.0 12345 test/simple/mock.properties ```
+
+or with a random waiting time
+
+``` > node lib/httpMock.js 0.0.0.0 12345 test/simple/mock.properties 10000 3000 2000```
+
 
 ## Next task to do
 
