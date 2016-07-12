@@ -13,7 +13,7 @@ As I just start the node development I didn't yet prepare the environment to spe
 
  * properties-reader
 * create a property file with the list of rules
-* create your rules files 
+* create your rules files
 
 Remark: I used **http-string-parser** but I plan to change that or pull request fix as it not at all efficient
 
@@ -42,6 +42,8 @@ Here is an example :
 	<mock>
 		<description>MyFirstRule</description>
 		<requestPattern>.*stringToDetect.*</requestPattern>
+    <responseTimeInMilli>1000</responseTimeInMilli>
+    <deviationValue>100</deviationValue>
 		<response><![CDATA[HTTP/1.1 200 OK
 Date: Tue, 08 Sep 2008 11:10:28 GMT
 Connection: close
@@ -62,6 +64,8 @@ This Rule will return ``` ContentToReturn ``` if the request contains the string
 
 You can write several rules in the same rule file. The priority order is given by the order of the rule files in the property file and the rule in the rule files. The first rule matching the request give the returned answer.
 
+The waiting time for this rule will be 1000 in average and the standard deviation of it will be 100, i.e. request will be between 990ms and 1100ms for 95% of requests returned.
+
 ### Prepare data (should be soon removed)
 
 The HTTP String parser used waits Windows carriage return (really bad). I plan to rewrite the parser or send pull request to improve that or use a real parser.
@@ -77,14 +81,13 @@ $> ./normalizeCarriageReturn.sh my/directory/
 
 ## Start the server
 
-``` > node httpMock.js addressToListen portTolisten propertyFile mediumWaitingTime meanValue standardDeviation```
+``` > node httpMock.js addressToListen portTolisten propertyFile meanValue standardDeviation```
 
 * addressToListen : ip address (0.0.0.0 for all enabled ip address of the server)
 * portToListen : port to listen
 * propertyFile : path the property file described above
-* mediumWaitingTime : Medium waiting time
-* meanValue : Mean value for the random waiting time
-* standardDeviationValue : Standard Deviation for the random waiting time
+* meanValue : Mean value for the random waiting time (default 0)
+* standardDeviationValue : Standard Deviation for the random waiting time (default 1)
 
 
 With the simple example:
@@ -93,8 +96,9 @@ With the simple example:
 
 or with a random waiting time
 
-``` > node lib/httpMock.js 0.0.0.0 12345 test/simple/mock.properties 10000 3000 2000```
+``` > node lib/httpMock.js 0.0.0.0 12345 test/simple/mock.properties 10000 3000```
 
+You can define on each rule the mean Value and Standard deviation. The command waiting time configuration will be overridden by the rule one's.
 
 ## Next task to do
 
