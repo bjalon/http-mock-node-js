@@ -81,13 +81,14 @@ $> ./normalizeCarriageReturn.sh my/directory/
 
 ## Start the server
 
-``` > node httpMock.js addressToListen portTolisten propertyFile meanValue standardDeviation```
+``` > node httpMock.js addressToListen portTolisten propertyFile -wt=meanValue -sd=standardDeviation -l=logLevel```
 
 * addressToListen : ip address (0.0.0.0 for all enabled ip address of the server)
 * portToListen : port to listen
 * propertyFile : path the property file described above
 * meanValue : Mean value for the random waiting time (default 0)
 * standardDeviationValue : Standard Deviation for the random waiting time (default 1)
+* logLevel : Define the log level (error, warn, info)
 
 
 With the simple example:
